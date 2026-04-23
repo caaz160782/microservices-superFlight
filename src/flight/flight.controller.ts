@@ -14,7 +14,9 @@ import { Observable } from 'rxjs';
 import { ClientProxySuperFlights } from 'src/common/proxy/client-proxy';
 import { IFlight } from 'src/interfaces/flight.interface';
 import { FlightMSG, PassengerMSG } from 'src/common/constants';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('flight')
 @Controller('api/v3/flight')
 export class FlightController {
   private _clientProxyFlights;
