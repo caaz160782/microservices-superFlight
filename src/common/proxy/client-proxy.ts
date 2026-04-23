@@ -1,7 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
-import { RabbitMQ } from "../constants";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import {
+  ClientProxy,
+  ClientProxyFactory,
+  Transport,
+} from '@nestjs/microservices';
+import { RabbitMQ } from '../constants';
 
 @Injectable()
 export class ClientProxySuperFlights {
@@ -14,7 +18,6 @@ export class ClientProxySuperFlights {
         urls: [this.config.get<string>('AMQP_URL')!],
         queue: RabbitMQ.userQueue,
       },
-
     });
   }
 
@@ -25,9 +28,16 @@ export class ClientProxySuperFlights {
         urls: [this.config.get<string>('AMQP_URL')!],
         queue: RabbitMQ.PassengerQueue,
       },
-
     });
   }
 
-
+  clientProxyFlights(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.RMQ,
+      options: {
+        urls: [this.config.get<string>('AMQP_URL')!],
+        queue: RabbitMQ.FlightQueue,
+      },
+    });
+  }
 }
